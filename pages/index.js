@@ -7,11 +7,6 @@ import React, { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  // return (
-  //   <Fragment >
-  //     <Tic_Tac_Toe />
-  //   </Fragment>
-  // );
   const [box, setBox] = useState(Array(9).fill(null));
   const [player, setPlayer] = useState("X");
   const [winner, setWinner] = useState(null);
@@ -25,8 +20,6 @@ export default function Home() {
       setBox(newBox);
       setPlayer(player === "X" ? "O" : "X");
       checkWinner(newBox, player);
-      // setwinx(winx + 1);
-      // console.log(player);
     }
   };
   const checkWinner = (box, currentPlayer) => {
@@ -52,7 +45,7 @@ export default function Home() {
         setBox(Array(9).fill(null));
         setWinner(null);
         setPlayer(box[a]);
-        setmsg("Last Game Winner" + box[a]);
+        setmsg("Last Game Winner is:- " + box[a]);
         break;
       }
     }
@@ -69,7 +62,6 @@ export default function Home() {
     <div className="text-center">
       <HeadComponent title="Tic Tac Toe" />
       <div className="status">
-        {/* {`Winner: ${winner}`} */}
         <div className="text-danger">{msg}</div>
         {`Next player: ${player}`}
       </div>
@@ -81,14 +73,13 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <button className="m-2 me-5 btn btn-success" onClick={resetbox}>
+      <button className="m-2  btn btn-success" onClick={resetbox}>
         Reset Box
       </button>
       <br />
-      <button className="m-2 me-5 btn btn-danger" onClick={resetgame}>
+      <button className="m-2  btn btn-danger" onClick={resetgame}>
         Reset Game
       </button>
     </div>
   );
-};
-
+}
