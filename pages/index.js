@@ -13,6 +13,7 @@ export default function Home() {
   const [winx, setwinx] = useState(0);
   const [wino, setwino] = useState(0);
   const [msg, setmsg] = useState("");
+
   const handleClick = (i) => {
     if (box[i] === null && !winner) {
       const newBox = [...box];
@@ -22,6 +23,7 @@ export default function Home() {
       checkWinner(newBox, player);
     }
   };
+
   const checkWinner = (box, currentPlayer) => {
     const winnerLine = [
       [0, 1, 2],
@@ -50,14 +52,17 @@ export default function Home() {
       }
     }
   };
+
   const resetbox = () => {
     setBox(Array(9).fill(null));
     setWinner(null);
     setPlayer("X");
   };
+
   const resetgame = () => {
     window.location.reload();
   };
+
   return (
     <div className="text-center">
       <HeadComponent title="Tic Tac Toe" />
@@ -65,7 +70,7 @@ export default function Home() {
         <div className="text-danger">{msg}</div>
         {`Next player: ${player}`}
       </div>
-      win BY X: {winx} or Win By O:{wino}
+      Matches Win BY X: {winx} || Matches Win By O:{wino}
       <div className="board  align-items-center d-flex-block justify-content-center">
         {box.map((b, i) => (
           <div key={i} className="cell" onClick={() => handleClick(i)}>
