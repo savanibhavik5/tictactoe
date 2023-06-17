@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Tic_Tac_Toe = () => {
   let [box, setBox] = useState([]);
-  let [input, setInput] = useState();
+  let [input, setInput] = useState(Number());
   let [player, setPlayer] = useState("X");
   let [winner, setWinner] = useState(null);
   let game_over = false;
@@ -15,6 +15,15 @@ const Tic_Tac_Toe = () => {
   useEffect(() => {
     setInput(3);
   }, []);
+
+  // useEffect(() => {
+  //   const initializeBoard = () => {
+  //     const initialBoard = Array.from(Array(input), () => Array(input).fill(""));
+  //     setBox(initialBoard);
+  //   };
+  //   initializeBoard();
+  // }, [input]);
+
   useEffect(() => {
     for (let j = 0; j < input; j++) {
       let devide = [];
@@ -62,20 +71,43 @@ const Tic_Tac_Toe = () => {
     setGridStyles(styles);
   }, [task]);
 
+  // const checkWinner = (X, I) => {
+  //   const ForX = (currentValue) => currentValue === "X";
+  //   const ForO = (currentValue) => currentValue === "O";
+  //   let check = [];
+  //   let RightDiagonal = [];
+  //   let LeftDiagonal = [];
+
+  //   for (let m = 0; m < input; m++) {
+  //     let dec = input - (m + 1);
+  //     check.push(box[m][I]);
+  //     RightDiagonal.push(box[m][m]);
+  //     LeftDiagonal.push(box[m][dec]);
+  //   }
+
+  //   if (box[X].every(ForX) || check.every(ForX) || RightDiagonal.every(ForX) || LeftDiagonal.every(ForX)) {
+  //     alert("Winner is X");
+  //   } else if (box[X].every(ForO) || check.every(ForO) || RightDiagonal.every(ForO) || LeftDiagonal.every(ForO)) {
+  //     alert("Winner is O");
+  //   }
+  // };
+
   const checkWinner = (index1, index2) => {
-    setPlayer(player == "X" ? "O" : "X");
+    // setPlayer(player == "X" ? "O" : "X");
+
     const rows = box.length;
     const columns = box[0].length;
-   
+    // console.log(rows,"rows");
+    // console.log(columns, "columns");
+
     // for winner in rows
     for (let i = 0; i < rows; i++) {
-      // setPlayer(player == "X" ? "O" : "X");
       if (box[i].every((val) => val == player)) {
-        console.log(winner, "Rowwwwww");
+        // console.log(winner, "Rowwwwww");
         setWinner(player);
       }
     }
-   
+
     // for check winner in column
     for (let i = 0; i < columns; i++) {
       let column = [];
@@ -84,9 +116,9 @@ const Tic_Tac_Toe = () => {
       }
       if (column.every((e) => e === player)) {
         // setBox(player);
-        setWinner(player)
+        setWinner(player);
       }
-      console.log(box, winner,"column");
+      // console.log(box, winner, "column");
     }
   };
 
