@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Tic_Tac_Toe = () => {
-  const [box, setBox] = useState([]);
-  const [input, setInput] = useState();
-  const [player, setPlayer] = useState("X");
-  const [winner, setWinner] = useState(null);
+  let [box, setBox] = useState([]);
+  let [input, setInput] = useState();
+  let [player, setPlayer] = useState("X");
+  let [winner, setWinner] = useState(null);
   let game_over = false;
   let boxes = [];
 
@@ -26,18 +26,16 @@ const Tic_Tac_Toe = () => {
     }
   }, [input]);
 
-  console.log(box);
+  // console.log(box);
 
   const handleClick = (index1, index2) => {
     if (!game_over && box[index1][index2] == "") {
       const newBox = [...box];
       newBox[index1][index2] = player;
       setBox(newBox);
-      setPlayer(player == "X" ? "O" : "X");
-      // checkWinner(box, player);
-      console.log(newBox, "rrr");
-    } else {
-      alert("Already Clicked");
+      // setPlayer(player == "X" ? "O" : "X");
+      checkWinner(box, player);
+      // console.log(newBox, "rrr");
     }
   };
 
@@ -49,7 +47,7 @@ const Tic_Tac_Toe = () => {
   const csss = repeat.toString();
 
   const task = csss.replaceAll(",", " ");
-  console.log(task);
+  // console.log(task);
 
   const [gridStyles, setGridStyles] = useState({});
 
@@ -58,23 +56,52 @@ const Tic_Tac_Toe = () => {
       display: "grid",
       gridTemplateColumns: task,
       marginTop: "10px",
-      width: "300px",
-      height: "300px",
+      width: "30px",
+      height: "30px",
     };
     setGridStyles(styles);
   }, [task]);
 
+  const checkWinner = (index1, index2) => {
+    setPlayer(player == "X" ? "O" : "X");
+    const rows = box.length;
+    const columns = box[0].length;
+   
+    // for winner in rows
+    for (let i = 0; i < rows; i++) {
+      // setPlayer(player == "X" ? "O" : "X");
+      if (box[i].every((val) => val == player)) {
+        console.log(winner, "Rowwwwww");
+        setWinner(player);
+      }
+    }
+   
+    // for check winner in column
+    for (let i = 0; i < columns; i++) {
+      let column = [];
+      for (let j = 0; j < rows; j++) {
+        column.push(box[player]);
+      }
+      if (column.every((e) => e === player)) {
+        // setBox(player);
+        setWinner(player)
+      }
+      console.log(box, winner,"column");
+    }
+  };
+
   return (
     <>
-      <div className="text-center m-2">
+      <div className="text-center">
         <input
           type="number"
           value={input || ""}
           // id="fruits"
+          className="mt-2"
           onChange={(e) => setInput(e.target.value)}
         />
-        <div className="m-2 d-inline">
-          <button className="btn btn-outline-danger " role="button">
+        <div className=" d-inline ">
+          <button className="btn btn-outline-danger m-2" role="button">
             reset
           </button>
         </div>
