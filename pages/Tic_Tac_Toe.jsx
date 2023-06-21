@@ -9,6 +9,7 @@ const TicTacToe = () => {
   let [wino, setwino] = useState(0);
   let [draw, setDraw] = useState(0);
   let [gridStyles, setGridStyles] = useState({});
+  let [gameover, setGameOver] = useState(false);
 
   const functioncall = () => {
     let boxes = [];
@@ -63,41 +64,38 @@ const TicTacToe = () => {
       let rightDiagonal = true;
       for (let i = 0; i < box.length; i++) {
         leftDiagonal = leftDiagonal && box[i][i] === player;
-        rightDiagonal =
-          (rightDiagonal && box[i][box.length  -1- i] === player) 
-        
+        rightDiagonal = rightDiagonal && box[i][box.length - 1 - i] === player;
       }
       return leftDiagonal || rightDiagonal;
     };
-    console.log(box)
-    // console.log(box)
 
     let isDraw = true;
-    for (let i = 0; i < box.length; i++) {
-      if (box[i].includes("")) {
+    for (let j = 0; j < box.length; j++) {
+      if (box[j].includes("")) {
         isDraw = false;
         break;
       }
     }
-    if (isDraw) {
-      swal({
-        title: "Match Draw",
-        icon: "info",
-        button: "Play Again???",
-      });
-      setDraw(draw + 1);
-      // resetGame(player);
-    } else {
-      for (let i = 0; i < box.length; i++) {
-        if (checkRow(box[i]) || checkColumn(i) || checkDiagonal()) {
-          player === "X" ? setwinx(winx + 1) : setwino(wino + 1);
-          swal({
-            title: `Player ${player} wins!`,
-            icon: "success",
-            button: "Play Again???",
-          });
-          // resetGame(player);
-        }
+    for (let i = 0; i < box.length; i++) {
+      if (checkRow(box[i]) || checkColumn(i) || checkDiagonal()) {
+        player === "X" ? setwinx(winx + 1) : setwino(wino + 1);
+        swal({
+          title: `Player ${player} wins!`,
+          icon: "success",
+          button: "Play Again???",
+        });
+        resetGame(player);
+        setGameOver(true);
+        return;
+      }
+      if (isDraw) {
+        swal({
+          title: "Match Draw",
+          icon: "info",
+          button: "Play Again???",
+        });
+        resetGame(player);
+        setDraw(draw + 1);
       }
     }
   };
@@ -123,7 +121,7 @@ const TicTacToe = () => {
         >
           -
         </button>
-        {input}x{input}
+        {input} x {input}
         <button
           className="btn btn-secondary m-2"
           onClick={() => setInput(input + 1)}
@@ -132,10 +130,18 @@ const TicTacToe = () => {
           +
         </button>
       </div>
-      <div className="d-inline"></div>
+      <div className="d-inline">
+        {/* <button
+          onClick={() => resetGame(player)}
+          className="btn btn-outline-danger"
+        >
+          Reset
+        </button> */}
+      </div>
       <p>next player:-{player}</p>
       <div style={gridStyles} className="gap-1 px-5 p-2 gapping">
         {box?.map((b, row) => {
+          console.log(box, "gggg");
           return b?.map((bb, col) => {
             return (
               <div
