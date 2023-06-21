@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <div className="text-center">
       <HeadComponent title="Tic Tac Toe" />
-      <div className="status">
+      {/* <div className="status">
         <div className="text-danger">{msg}</div>
         {`Next player: ${player}`}
       </div>
@@ -84,7 +84,8 @@ export default function Home() {
       <br />
       <button className="m-2  btn btn-danger" onClick={resetgame}>
         Reset Game
-      </button>
+      </button> */}
+      <Tic_Tac_Toe/>
     </div>
   );
 }
