@@ -99,6 +99,7 @@ const TicTacToe = () => {
       }
     }
   };
+  
   const resetGame = (player) => {
     setPlayer(player);
     setInput(input);
