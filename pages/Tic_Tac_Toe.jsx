@@ -28,9 +28,9 @@ const TicTacToe = () => {
     setInput(3);
   }, []);
 
-  const repeat = Array(input).fill("auto");
-  const csss = repeat.join(" ");
   useEffect(() => {
+    const repeat = Array(input).fill("auto");
+    const csss = repeat.join(" ");
     const styles = {
       display: "grid",
       gridTemplateColumns: csss,
@@ -42,6 +42,7 @@ const TicTacToe = () => {
   }, [input]);
 
   const handleClick = (row, col) => {
+    // console.log(row, col);
     if (box[row][col] === "") {
       const newBox = [...box];
       newBox[row][col] = player;
@@ -52,6 +53,7 @@ const TicTacToe = () => {
   };
 
   const checkWinner = (box, player) => {
+    // console.log(box)
     const checkRow = (row) => row.every((value) => value === player);
     const checkColumn = (colIndex) =>
       box.every((row) => row[colIndex] === player);
@@ -59,13 +61,16 @@ const TicTacToe = () => {
     const checkDiagonal = () => {
       let leftDiagonal = true;
       let rightDiagonal = true;
-
       for (let i = 0; i < box.length; i++) {
         leftDiagonal = leftDiagonal && box[i][i] === player;
-        rightDiagonal = rightDiagonal && box[i][box.length - 1 - i] === player;
+        rightDiagonal =
+          (rightDiagonal && box[i][box.length  -1- i] === player) 
+        
       }
       return leftDiagonal || rightDiagonal;
     };
+    console.log(box)
+    // console.log(box)
 
     let isDraw = true;
     for (let i = 0; i < box.length; i++) {
@@ -81,7 +86,7 @@ const TicTacToe = () => {
         button: "Play Again???",
       });
       setDraw(draw + 1);
-      resetGame(player);
+      // resetGame(player);
     } else {
       for (let i = 0; i < box.length; i++) {
         if (checkRow(box[i]) || checkColumn(i) || checkDiagonal()) {
@@ -91,7 +96,7 @@ const TicTacToe = () => {
             icon: "success",
             button: "Play Again???",
           });
-          resetGame(player);
+          // resetGame(player);
         }
       }
     }
@@ -131,8 +136,6 @@ const TicTacToe = () => {
       <p>next player:-{player}</p>
       <div style={gridStyles} className="gap-1 px-5 p-2 gapping">
         {box?.map((b, row) => {
-          console.log(b, "bbbbbb");
-          console.log(box, "bbbbbb");
           return b?.map((bb, col) => {
             return (
               <div
