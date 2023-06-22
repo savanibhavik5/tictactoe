@@ -4,7 +4,6 @@ import Tic_Tac_Toe from "./Tic_Tac_Toe";
 import { Fragment } from "react";
 import React, { useState } from "react";
 import TicTacToe from "./test";
-import Another from "./umang";
 
 const inter = Inter({ subsets: ["latin"] });
 
