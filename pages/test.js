@@ -2,31 +2,29 @@ import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 const TicTacToe = () => {
-  let [box, setBox] = useState([]);
-  let [input, setInput] = useState(Number());
-  let [player, setPlayer] = useState("X");
-  let [winx, setwinx] = useState(0);
-  let [wino, setwino] = useState(0);
-  let [draw, setDraw] = useState(0);
-  let [gridStyles, setGridStyles] = useState({});
+  const [box, setBox] = useState([]);
+  const [input, setInput] = useState(3);
+  const [player, setPlayer] = useState("X");
+  const [winx, setwinx] = useState(0);
+  const [wino, setwino] = useState(0);
+  const [draw, setDraw] = useState(0);
+  const [gridStyles, setGridStyles] = useState({});
+  const [history, setHistory] = useState([]);
+  const [stepNumber, setStepNumber] = useState(0);
 
-  const functioncall = () => {
+  const functionCall = () => {
     let boxes = [];
     for (let j = 0; j < input; j++) {
-      let devide = Array(input).fill("");
-      boxes.push(devide);
+      let divide = Array(input).fill("");
+      boxes.push(divide);
     }
     setBox(boxes);
+    setHistory([boxes]);
   };
-  useEffect(() => {
-    if (input >= 1) {
-      functioncall();
-    }
-  }, [input]);
 
   useEffect(() => {
-    setInput(3);
-  }, []);
+    functionCall();
+  }, [input]);
 
   useEffect(() => {
     const repeat = Array(input).fill("auto");
@@ -42,11 +40,13 @@ const TicTacToe = () => {
 
   const handleClick = (row, col) => {
     if (box[row][col] === "") {
-      const newBox = [...box];
+      const newBox = box.map((row) => [...row]);
       newBox[row][col] = player;
       setBox(newBox);
       setPlayer(player === "X" ? "O" : "X");
       checkWinner(newBox, player);
+      setHistory([...history.slice(0, stepNumber + 1), newBox]);
+      setStepNumber(stepNumber + 1);
     }
   };
 
@@ -79,8 +79,8 @@ const TicTacToe = () => {
           title: `Player ${player} wins!`,
           icon: "success",
           button: "Play Again???",
-        });
-        resetGame(player);
+        }).then(() => resetGame(player));
+        setHistory([]);
         return;
       }
       if (isDraw) {
@@ -88,31 +88,37 @@ const TicTacToe = () => {
           title: "Match Draw",
           icon: "info",
           button: "Play Again???",
-        });
-        resetGame(player);
+        }).then(() => resetGame(player));
         setDraw(draw + 1);
+        setHistory([]);
       }
     }
   };
 
+  const jumpTo = (step) => {
+    setStepNumber(step);
+    setPlayer(step % 2 === 0 ? "X" : "O");
+    setBox(history[step]);
+  };
+
   const resetGame = (player) => {
-    setPlayer(player);
     setInput(input);
-    functioncall();
+    setPlayer(player);
+    functionCall();
   };
 
   return (
     <div className="p-5">
       <div className="d-flex justify-content-center">
-        <p className="px-5"> X: {winx} </p>
-        <p className="px-5"> O: {wino} </p>
-        <p className="px-5">Draw: {draw} </p>
+        <p className="px-5">X: {winx}</p>
+        <p className="px-5">O: {wino}</p>
+        <p className="px-5">Draw: {draw}</p>
       </div>
       <p>Total Matches: {winx + wino + draw}</p>
       <div className="text-center">
         <button
           className="btn btn-secondary m-2"
-          onClick={() => setInput(input - 1)}
+          onClick={() => setInput((prevInput) => prevInput - 1)}
           disabled={input <= 1}
         >
           -
@@ -120,14 +126,26 @@ const TicTacToe = () => {
         {input} x {input}
         <button
           className="btn btn-secondary m-2"
-          onClick={() => setInput(input + 1)}
+          onClick={() => setInput((prevInput) => prevInput + 1)}
           disabled={input >= 10}
         >
           +
         </button>
       </div>
-      <p>next player:-{player}</p>
+      <p>Next player: {player}</p>
       <div className="mt-4">
+        <p>Game History:</p>
+        {history?.map((step, move) => (
+          <button
+            key={move}
+            onClick={() => jumpTo(move, step)}
+            className={`btn m-1 border border-1 ${
+              move === stepNumber ? "fw-bold" : ""
+            }`}
+          >
+            {move === 0 ? "Reset" : move}
+          </button>
+        ))}
       </div>
       <div className="d-flex align-items-center justify-content-center">
         <div style={gridStyles} className="">
@@ -154,4 +172,5 @@ const TicTacToe = () => {
     </div>
   );
 };
+
 export default TicTacToe;

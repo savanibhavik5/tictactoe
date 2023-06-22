@@ -3,6 +3,8 @@ import HeadComponent from "./HeadComponent";
 import Tic_Tac_Toe from "./Tic_Tac_Toe";
 import { Fragment } from "react";
 import React, { useState } from "react";
+import TicTacToe from "./test";
+import Another from "./umang";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,7 +66,7 @@ export default function Home() {
   };
 
   return (
-    <div className="text-center">
+    <div className="text-center v set_background">
       <HeadComponent title="Tic Tac Toe" />
       {/* <div className="status">
         <div className="text-danger">{msg}</div>
@@ -85,7 +87,10 @@ export default function Home() {
       <button className="m-2  btn btn-danger" onClick={resetgame}>
         Reset Game
       </button> */}
-      <Tic_Tac_Toe/>
+      {/* <Tic_Tac_Toe /> */}
+      {/* <Home2/> */}
+      <TicTacToe />
+      {/* <Another /> */}
     </div>
   );
 }
